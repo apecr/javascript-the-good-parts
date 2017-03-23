@@ -1,4 +1,4 @@
-Function.prototype.method = function(name, func) {
+Function.prototype.method = function (name, func) {
     if (!this.prototype[name]) {
         this.prototype[name] = func;
     }
@@ -7,18 +7,21 @@ Function.prototype.method = function(name, func) {
 // method. The increment method takes an optional
 // parameter. If the argument is not a number, then 1
 // is used as the default.
-var myObject = function() {
+var myObject = function () {
     var value = 0;
     return {
-        increment: function(inc) {
+        increment: function (inc) {
             value += typeof inc === 'number' ? inc : 1;
         },
-        getValue: function() {
+        getValue: function () {
             return value;
         },
-        double: function() {
+        setValue: function (setValue) {
+            value = setValue;
+        },
+        double: function () {
             var that = this; // Workaround.
-            var helper = function() {
+            var helper = function () {
                 value = add(that.getValue(), that.getValue());
             };
             helper(); // Invoke helper as a function.
@@ -42,22 +45,22 @@ function throwExceptionIfParametersNotANumber(a, b) {
 
 // Create a constructor function called Quo.
 // It makes an object with a status property.
-var Quo = function(string) {
+var Quo = function (string) {
     this.status = string;
 };
 // Create a maker function called quo. It makes an
 // object with a get_status method and a private
 // status property.
-var quo = function(status) {
+var quo = function (status) {
     return {
-        get_status: function() {
+        get_status: function () {
             return status;
         }
     };
 };
 // Give all instances of Quo a public method
 // called get_status.
-Quo.prototype.get_status = function() {
+Quo.prototype.get_status = function () {
     return this.status;
 };
 
@@ -93,7 +96,7 @@ document.writeln(status);
 // the function does not interfere with the sum
 // defined outside of the function. The function
 // only sees the inner one.
-var sum = function() {
+var sum = function () {
     var i, sum = 0;
     for (i = 0; i < arguments.length; i += 1) {
         sum += arguments[i];
@@ -103,7 +106,7 @@ var sum = function() {
 document.writeln(sum(4, 8, 15, 16, 23, 42)); // 108
 // Make a try_it function that calls the new add
 // function incorrectly.
-var try_it = function() {
+var try_it = function () {
     try {
         add("seven");
     } catch (e) {
@@ -114,10 +117,10 @@ try_it();
 // Make an instance of quo.
 var myQuo = quo("amazed");
 document.writeln(myQuo.get_status());
-Number.method('integer', function() {
+Number.method('integer', function () {
     return Math[this < 0 ? 'ceil' : 'floor'](this);
 });
-String.method('trim', function() {
+String.method('trim', function () {
     return this.replace(/^\s+|\s+$/g, '');
 });
 document.writeln('"' + " neat     ".trim() + '"');
@@ -142,9 +145,9 @@ var walk_the_DOM = function walk(node, func) {
 // function that looks for an attribute name in the
 // node. The matching nodes are accumulated in a
 // results array.
-var getElementsByAttribute = function(att, value) {
+var getElementsByAttribute = function (att, value) {
     var results = [];
-    walk_the_DOM(document.body, function(node) {
+    walk_the_DOM(document.body, function (node) {
         var actual = node.nodeType === 1 && node.getAttribute(att);
         if (typeof actual === 'string' &&
             (actual === value || typeof value !== 'string')) {
@@ -162,10 +165,10 @@ var factorial = function factorial(i, a) {
     return factorial(i - 1, a * i);
 };
 document.writeln(factorial(4)); // 24
-var foo = function() {
+var foo = function () {
     var a = 3,
         b = 5;
-    var bar = function() {
+    var bar = function () {
         var b = 7,
             c = 11;
         // At this point, a is 3, b is 7, and c is 11
@@ -180,9 +183,9 @@ var foo = function() {
 
 // Define a function that sets a DOM node's color
 // to yellow and then fades it to white.
-var fade = function(node) {
+var fade = function (node) {
     var level = 1;
-    var step = function() {
+    var step = function () {
         var hex = level.toString(16);
         node.style.backgroundColor = '#FFFF' + hex + hex;
         if (level < 15) {
@@ -200,10 +203,10 @@ fade(document.body);
 // When you click on a node, an alert box is supposed to display the ordinal of the
 // node.
 // But it always displays the number of nodes instead.
-var add_the_handlers = function(nodes) {
+var add_the_handlers = function (nodes) {
     var i;
     for (i = 0; i < nodes.length; i += 1) {
-        nodes[i].onclick = function(e) {
+        nodes[i].onclick = function (e) {
             alert(i);
         };
     }
@@ -214,11 +217,11 @@ var add_the_handlers = function(nodes) {
 // Make a function that assigns event handler functions to an array of nodes the
 // right way.
 // When you click on a node, an alert box will display the ordinal of the node.
-var add_the_handlers_correctly = function(nodes) {
+var add_the_handlers_correctly = function (nodes) {
     var i;
     for (i = 0; i < nodes.length; i += 1) {
-        nodes[i].onclick = function(i) {
-            return function(e) {
+        nodes[i].onclick = function (i) {
+            return function (e) {
                 alert(e);
             };
         }(i);
@@ -245,14 +248,14 @@ function display(string) {
 }
 
 var request = prepare_the_request();
-send_request_asynchronously(request, function(response) {
+send_request_asynchronously(request, function (response) {
     display(response);
 });
 
 
 // Module
 
-String.method('deentityify', function() {
+String.method('deentityify', function () {
     // The entity table. It maps entity names to
     // characters.
     var entity = {
@@ -262,7 +265,7 @@ String.method('deentityify', function() {
         mispelotas: 'mispelotas'
     };
     // Return the deentityify method.
-    return function() {
+    return function () {
         // This is the deentityify method. It calls the string
         // replace method, looking for substrings that start
         // with '&' and end with ';'. If the characters in
@@ -270,7 +273,7 @@ String.method('deentityify', function() {
         // entity with the character from the table. It uses
         // a regular expression (Chapter 7).
         return this.replace(/&([^&;]+);/g,
-            function(a, b) {
+            function (a, b) {
                 var r = entity[b];
                 return typeof r === 'string' ? r : a;
             }
@@ -281,7 +284,7 @@ String.method('deentityify', function() {
 document.writeln(
     '&lt;&quot;&gt;&mispelotas;'.deentityify()); // <">
 
-var serial_maker = function() {
+var serial_maker = function () {
     // Produce an object that produces unique strings. A
     // unique string is made up of two parts: a prefix
     // and a sequence number. The object comes with
@@ -291,13 +294,13 @@ var serial_maker = function() {
     var prefix = '';
     var seq = 0;
     return {
-        set_prefix: function(p) {
+        set_prefix: function (p) {
             prefix = String(p);
         },
-        set_seq: function(s) {
+        set_seq: function (s) {
             seq = s;
         },
-        gensym: function() {
+        gensym: function () {
             var result = prefix + seq;
             seq += 1;
             return result;
@@ -309,3 +312,90 @@ seqer.set_prefix('Q');
 seqer.set_seq(1000);
 var unique = seqer.gensym(); // unique is "Q1000"
 document.writeln(unique);
+
+// Cascade
+/*getElement('myBoxDiv').
+    move(350, 150).
+    width(100).
+    height(100).
+    color('red').
+    border('10px outset').
+    padding('4px').
+    appendText("Please stand by").
+    on('mousedown', function (m) {
+        this.startDrag(m, this.getNinth(m));
+    }).
+    on('mousemove', 'drag').
+    on('mouseup', 'stopDrag').
+    later(2000, function () {
+        this.
+            color('yellow').
+            setHTML("What hath God wraught?").
+            slide(400, 40, 200, 200);
+    }).
+    tip('This box is resizeable');*/
+
+// CURRY
+
+Function.method('curry', function () {
+    var slice = Array.prototype.slice;
+    var args = slice.apply(arguments);
+    var that = this;
+    return function () {
+        return that.apply(null, args.concat(slice.apply(arguments)));
+    };
+});
+var add1 = add.curry(1);
+document.writeln(add1(6));
+
+// Memoization
+
+myObject.setValue(0);
+var fibonacciSlow = function (n) {
+    myObject.increment(1);
+    document.writeln('Callling Fibonnaci Slow Algorithm ' + myObject.getValue());
+    return n < 2 ? n : fibonacciSlow(n - 1) + fibonacciSlow(n - 2);
+};
+document.writeln('Fibonacci slow algorithm');
+for (var i = 0; i <= 10; i += 1) {
+    document.writeln('// ' + i + ': ' + fibonacciSlow(i));
+}
+
+myObject.setValue(0);
+var fibonacci = function () {
+    var memo = [0, 1];
+    var fib = function (n) {
+        myObject.increment(1);
+        document.writeln('Callling Fibonnaci Fast Algorithm ' + myObject.getValue());
+        var result = memo[n];
+        if (typeof result !== 'number') {
+            result = fib(n - 1) + fib(n - 2);
+            memo[n] = result;
+        }
+        return result;
+    };
+    return fib;
+}();
+document.writeln('Fibonacci fast algorithm');
+for (var i = 0; i <= 10; i += 1) {
+    document.writeln('// ' + i + ': ' + fibonacci(i));
+}
+
+// memo is an array
+// fundamental is a function to pass
+var memoizer = function (memo, fundamental) {
+    var shell = function (n) {
+        var result = memo[n];
+        if (typeof result !== 'number') {
+            result = fundamental(shell, n);
+            memo[n] = result;
+        }
+        return result;
+    };
+    return shell;
+};
+
+var fibonacci = memoizer([0, 1], function (shell, n) {
+    return shell(n - 1) + shell(n - 2);
+});
+
