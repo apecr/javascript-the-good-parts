@@ -1,13 +1,14 @@
 {
-  "name" : "javascript-the-good-parts",
-  "version" : "1.0.0",
-  "main" : "the-good-parts.js",
-  "scripts" : {
-    "test": "mocha -u tdd"
+  "name": "javascript-the-good-parts",
+  "version": "1.0.0",
+  "main": "the-good-parts.js",
+  "scripts": {
+    "test": "mocha -u tdd --recursive"
   },
   "author": "Alberto Eyo",
   "license": "ISC",
-  "devDependencies":{
+  "devDependencies": {
+    "chai": "^4.0.2",
     "mocha": "^3.1.2",
     "sinon": "^1.17.2"
   }

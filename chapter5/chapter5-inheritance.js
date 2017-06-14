@@ -1,28 +1,32 @@
 Function.prototype.method = function(name, func) {
-    if (!this.prototype[name]) {
-        this.prototype[name] = func;
-    }
+  if (!this.prototype[name]) {
+    this.prototype[name] = func;
+  }
 };
+
 Function.method('new', function() {
-    // Create a new object that inherits from the
-    // constructor's prototype.
-    var that = Object.create(this.prototype);
-    // Invoke the constructor, binding –this- to
-    // the new object.
-    var other = this.apply(that, arguments);
-    // If its return value isn't an object,
-    // substitute the new object.
-    return (typeof other === 'object' && other) || that;
+  // Create a new object that inherits from the
+  // constructor's prototype.
+  var that = Object.create(this.prototype);
+
+  // Invoke the constructor, binding –this- to
+  // the new object.
+
+  var other = this.apply(that, arguments);
+
+  // If its return value isn't an object,
+  // substitute the new object.
+  return (typeof other === 'object' && other) || that;
 });
 
 var Mammal = function(name) {
-    this.name = name;
+  this.name = name;
 };
 Mammal.prototype.get_name = function() {
-    return this.name;
+  return this.name;
 };
 Mammal.prototype.says = function() {
-    return this.saying || '';
+  return this.saying || '';
 };
 
 var myMammal = new Mammal('Herb the Mammal');
@@ -32,49 +36,49 @@ console.log('The name of the Mammal --> ' + name);
 
 //'meow Henrietta meow'
 var maker = function(especification) {
-    return this;
+  return this;
 };
 var f = 'first';
 var l = 'last';
 var s = 'state';
 var c = 'city';
 var myObject = maker({
-    first: f,
-    last: l,
-    state: s,
-    city: c
+  first: f,
+  last: l,
+  state: s,
+  city: c
 });
-
 
 
 console.log(myObject);
 
 
 // Prototypal
-var myMammal = {
-    name: 'Herb the Mammal',
-    get_name: function() {
-        return this.name;
-    },
-    says: function() {
-        return this.saying || '';
-    }
+var myOtherMammal = {
+  name: 'Herb the Mammal',
+  get_name: function() {
+    return this.name;
+  },
+  says: function() {
+    return this.saying || '';
+  }
 };
 
-var myCat = Object.create(myMammal);
+var myCat = Object.create(myOtherMammal);
 myCat.name = 'Henrietta';
 myCat.saying = 'meow';
 myCat.purr = function(n) {
-    var i, s = '';
-    for (i = 0; i < n; i++) {
-        if (s) {
-            s += '-';
-        }
-        s += 'r';
+  var i = '';
+  var s = '';
+  for (i = 0; i < n; i++) {
+    if (s) {
+      s += '-';
     }
-    return s;
+    s += 'r';
+  }
+  return s;
 };
-myCat.get_name = function(){
+myCat.get_name = function() {
   return this.says() + ' ' + this.name + ' ' + this.says();
 };
 
