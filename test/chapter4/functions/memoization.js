@@ -1,6 +1,6 @@
 'use strict';
 
-const memoization = require('../../chapter4/memoization');
+const memoization = require('../../../chapter4/functions/memoization');
 const expect = require('chai').expect;
 
 /*global define, describe, it, afterEach, after*/

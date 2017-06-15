@@ -1,7 +1,7 @@
 'use strict';
 
-const functions = require('../../chapter4/functions');
-const curry = require('../../chapter4/curry');
+const functions = require('../../../chapter4/functions/functions');
+const curry = require('../../../chapter4/functions/curry');
 const expect = require('chai').expect;
 
 /*global define, describe, it, afterEach, after*/
