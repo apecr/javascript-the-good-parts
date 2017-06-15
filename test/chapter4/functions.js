@@ -130,4 +130,42 @@ describe('Functions module', () => {
       expect(functions.foo()).to.deep.equal([21, 5]);
     });
   });
+  describe('Closure examples', () => {
+    it('Example with closure myObject', () => {
+      // Arrange
+      var myClosureObject = functions.myClosureObject;
+
+      // Act
+      myClosureObject.increment();
+      myClosureObject.increment(4);
+
+      // Assert
+      expect(myClosureObject.getValue()).to.equal(5);
+    });
+    it('Other closure example', () => {
+      // Arrange
+      var quo = functions.quo('flipando');
+
+      // Assert
+      expect(quo.getStatus()).to.equal('flipando');
+    });
+    it('Adding handlers wrong way', () => {
+      // Arrange
+      let arrayOfNodesToHandle = [{name: 'handler1'}, {name: 'handler2'}];
+      functions.addTheHandlers(arrayOfNodesToHandle);
+
+      // Act
+      //expect(arrayOfNodesToHandle[0].onclick()).to.equal(0);
+      //expect(arrayOfNodesToHandle[1].onclick()).to.equal(1);
+    });
+    it('Adding handlers right', () => {
+      // Arrange
+      let arrayOfNodesToHandle = [{name: 'handler1'}, {name: 'handler2'}];
+      functions.addTheHandlersCorrectly(arrayOfNodesToHandle);
+
+      // Act
+      expect(arrayOfNodesToHandle[0].onclick()).to.equal(0);
+      expect(arrayOfNodesToHandle[1].onclick()).to.equal(1);
+    });
+  });
 });

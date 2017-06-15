@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';*/
 
 var add = function(a, b) {
   return a + b;
@@ -115,6 +115,114 @@ var foo = function() {
   return [a, b];
 };
 
+// Define a walkTheDOM function that visits every
+// node of the tree in HTML source order, starting
+// from some given node. It invokes a function,
+// passing it each node in turn. walkTheDOM calls
+// itself to process each of the child nodes.
+
+var walkTheDOM = function walk(node, func) {
+  func(node);
+  node = node.firstChild;
+  while (node) {
+    walk(node, func);
+    node = node.nextSibling;
+  }
+};
+
+// Define a getElementsByAttribute function. It
+// takes an attribute name string and an optional
+// matching value. It calls walkTheDOM, passing it a
+// function that looks for an attribute name in the
+// node. The matching nodes are accumulated in a
+// results array.
+var getElementsByAttribute = function(att, value) {
+  var results = [];
+  walkTheDOM(document.body, function(node) {
+    var actual = node.nodeType === 1 && node.getAttribute(att);
+    if (typeof actual === 'string' &&
+      (actual === value || typeof value !== 'string')) {
+      results.push(node);
+    }
+  });
+  return results;
+};
+
+var myClosureObject = (function() {
+  var value = 0;
+  return {
+    increment: function(inc) {
+      value += typeof inc === 'number' ? inc : 1;
+    },
+    getValue: function() {
+      return value;
+    }
+  };
+}());
+
+// Create a maker function called quo. It makes an
+// object with a get_status method and a private
+// status property.
+
+var quo = function(status) {
+  return {
+    getStatus: function() {
+      return status;
+    }
+  };
+};
+
+// Define a function that sets a DOM node's color
+// to yellow and then fades it to white.
+var fade = function(node) {
+  var level = 1;
+  var step = function() {
+    var hex = level.toString(16);
+    node.style.backgroundColor = '#FFFF' + hex + hex;
+    if (level < 15) {
+      level += 1;
+      setTimeout(step, 100);
+    }
+  };
+  setTimeout(step, 100);
+};
+
+
+// BAD EXAMPLE
+
+// Make a function that assigns event handler functions to an array of nodes the wrong way.
+// When you click on a node, an alert box is supposed to display the ordinal of the node.
+// But it always displays the number of nodes instead.
+var addTheHandlers = function(nodes) {
+  var i;
+  for (i = 0; i < nodes.length; i += 1) {
+    nodes[i].onclick = function(e) {
+      console.log(i);
+      return i;
+    };
+  }
+};
+
+// END BAD EXAMPLE
+
+// BETTER EXAMPLE
+
+// Make a function that assigns event handler functions to an array of nodes the right way.
+// When you click on a node, an alert box will display the ordinal of the node.
+
+var addTheHandlersCorrectly = function(nodes) {
+  var i;
+  for (i = 0; i < nodes.length; i += 1) {
+    nodes[i].onclick = (function(a) {
+      return function() {
+        console.log(a);
+        return a;
+      };
+    }(i));
+  }
+};
+
+
 module.exports = {
   add,
   myObject,
@@ -123,5 +231,11 @@ module.exports = {
   addValidateParams,
   hanoi,
   factorial,
-  foo
+  foo,
+  getElementsByAttribute,
+  myClosureObject,
+  quo,
+  fade,
+  addTheHandlers,
+  addTheHandlersCorrectly
 };
