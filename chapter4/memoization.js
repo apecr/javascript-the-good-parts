@@ -1,9 +1,10 @@
 'use strict';
 
 const memoizer = function(fundamental, memo) {
+  var args = arguments;
   var cache = memo ? memo : {};
-  return function(params) {
-    const key = JSON.stringify(params);
+  return function() {
+    const key = JSON.stringify(arguments);
     if (!(key in cache)) {
       cache[key] = fundamental.apply(this, arguments);
     }
