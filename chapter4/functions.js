@@ -197,7 +197,6 @@ var addTheHandlers = function(nodes) {
   var i;
   for (i = 0; i < nodes.length; i += 1) {
     nodes[i].onclick = function(e) {
-      console.log(i);
       return i;
     };
   }
@@ -215,13 +214,11 @@ var addTheHandlersCorrectly = function(nodes) {
   for (i = 0; i < nodes.length; i += 1) {
     nodes[i].onclick = (function(a) {
       return function() {
-        console.log(a);
         return a;
       };
     }(i));
   }
 };
-
 
 module.exports = {
   add,
