@@ -4,7 +4,7 @@ const functions = require('../../chapter4/functions');
 const expect = require('chai').expect;
 
 /*global define, describe, it, afterEach, after*/
-describe('Functions module', () => {
+describe('Chapter 4 Functions. Firsts modules', () => {
   describe('The method invocation pattern', () => {
     it('Increment the value. No parameters', () => {
       // Arrange
